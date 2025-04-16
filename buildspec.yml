@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 841162695823.dkr.ecr.ap-south-1.amazonaws.com/pingponggamerepo
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t pingponggame .
+      - echo Tagging the Docker image...
+      - docker tag pingponggame:latest 841162695823.dkr.ecr.ap-south-1.amazonaws.com/pingponggamerepo:latest
+  post_build:
+    commands:
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push <your-ecr-repository-uri>:latest
+      - echo Creating imagedefinitions.json file for ECS deployment...
+      - echo '[{"name":"pingpongcontainer","imageUri":"841162695823.dkr.ecr.ap-south-1.amazonaws.com/pingponggamerepo:latest"}]' > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
