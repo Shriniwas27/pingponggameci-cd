@@ -14,7 +14,7 @@ phases:
   post_build:
     commands:
       - echo Pushing the Docker image to Amazon ECR...
-      - docker push <your-ecr-repository-uri>:latest
+      - docker push 841162695823.dkr.ecr.ap-south-1.amazonaws.com/pingponggamerepo:latest
       - echo Creating imagedefinitions.json file for ECS deployment...
       - echo '[{"name":"pingpongcontainer","imageUri":"841162695823.dkr.ecr.ap-south-1.amazonaws.com/pingponggamerepo:latest"}]' > imagedefinitions.json
 
